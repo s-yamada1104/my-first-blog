@@ -1,13 +1,4 @@
 from django.shortcuts import render
-from blog.forms import ClassroomForm  
-from django.shortcuts import render  
-from django.http import HttpResponse  
-from blog.functions import process_files
-from blog.functions import write_into_csv
-from blog.forms import ClassroomForm  
-from django.template import loader
-import csv
-
 
 # Create your views here.
 def post_list(request):
