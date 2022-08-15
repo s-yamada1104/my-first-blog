@@ -5,7 +5,7 @@ import logging
 import csv
 from datetime import datetime as dt
 from collections import defaultdict
-
+from .models import Sell
 logger = logging.getLogger('development')
 
 # DBへの追加用SQL
@@ -43,6 +43,8 @@ def regist_data(cursor, file_path):
             for k,v in d.items():
                 k = list(k) + [str(v)]
                 print(k)
+                if Sell.objects.filter(payment_id = k[1]).filter(product_id = k[5]):
+                  continue
                 cursor.execute(sql_insert,k)
 
             logger.info("=== > End DB登録 ==")
