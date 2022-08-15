@@ -11,8 +11,8 @@ logger = logging.getLogger('development')
 # DBへの追加用SQL
 sql_insert = ("insert into blog_sell (store_id, payment_id, payment_method, offering_method, time, product_id, product_name, price, tax, price_including_tax, user_id, quantity) "
               "select * from (select %s as store_id, %s as payment_id, %s as payment_method, %s as offering_method, %s as time, %s as product_id, %s as product_name, %s as price, %s as tax, %s as price_including_tax,"
-              "%s as user_id, %s as quantity) as tmp"
-              "where not exists (select * from blog_sell where payment_id = %s and product_id = %s)")
+              "%s as user_id, %s as quantity) as tmp")
+              # "where not exists (select * from blog_sell where payment_id = %s and product_id = %s)")
 
 
 def regist_data(cursor, file_path):
@@ -41,7 +41,7 @@ def regist_data(cursor, file_path):
 
                 # レコード追加
             for k,v in d.items():
-                k = list(k) + [str(v),k[1],k[5]]
+                k = list(k) + [str(v)]
                 print(k)
                 cursor.execute(sql_insert,k)
 

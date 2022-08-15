@@ -26,7 +26,7 @@ def handle_uploaded_file(f):
         addCsv.insert_csv_data(path)  # csvデータをDBに登録する
     except Exception as exc:
         logger.error(exc)
-    # os.remove(path)  # アップロードしたファイルを削除
+    os.remove(path)  # アップロードしたファイルを削除
       
 
 
