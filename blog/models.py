@@ -42,6 +42,15 @@ class Sales(models.Model):
     self.payment_id
 
 
+class  Member(models.Model):
+  member_id = models.CharField("member_id", max_length = 100, unique = True, default = "")
+  name = models.CharField("name", max_length = 100, blank = True)
+  email = models.CharField("email", max_length = 1000, blank = True)
+  points = models.IntegerField("points", blank = True, null = True)
+  def __str__(self):
+    return self.member_id
+
+
 class Sell(models.Model):
   store_id = models.CharField("store_id", max_length = 100)
   payment_id = models.CharField("payment_id",max_length = 100)
@@ -53,8 +62,8 @@ class Sell(models.Model):
   price = models.IntegerField("price",blank=True,null = True)
   tax = models.CharField("tax",blank=True,max_length = 100)
   price_including_tax = models.IntegerField("price_including_tax")
-  user_id = models.CharField("user_id", blank = True,max_length = 100)
-  quantity = models.IntegerField("quantity", default = -1)
+  member_id = models.ForeignKey(Member,verbose_name = "member_id", blank = True, null = True, max_length = 100, on_delete = models.PROTECT, to_field = "member_id")
+
   def __str__(self):
     return self.payment_id
 

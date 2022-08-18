@@ -1,0 +1,22 @@
+
+
+<html>
+    <head>
+        <title>Django Girls blog</title>
+    </head>
+    <body>
+      <!-- upload.html -->
+     
+      {% block content %}
+      <h1>アップロード サンプル</h1>
+      <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form }}
+          <div class="form-group">
+              <button type="submit">アップロード</button>
+          </div>
+      </form>
+      {% endblock %}
+
+    </body>
+</html>

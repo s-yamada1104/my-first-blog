@@ -16,31 +16,54 @@ UPLOAD_DIR = os.path.dirname(os.path.abspath(__file__)) + '/uploads/'  # アッ�
 
 
 # アップロードされたファイルのハンドル
-def handle_uploaded_file(f):
+def handle_uploaded_sell_file(f):
     path = os.path.join(UPLOAD_DIR, f.name)
     print("sususus")
     with open(path, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     try:
-        addCsv.insert_csv_data(path)  # csvデータをDBに登録する
+        addCsv.insert_sell_csv_data(path)  # csvデータをDBに登録する
     except Exception as exc:
         logger.error(exc)
-    os.remove(path)  # アップロードしたファイルを削除
+    # os.remove(path)  # アップロードしたファイルを削除
+def handle_uploaded_member_file(f):
+    path = os.path.join(UPLOAD_DIR, f.name)
+    print("sususus")
+    with open(path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    try:
+        addCsv.insert_member_csv_data(path)  # csvデータをDBに登録する
+    except Exception as exc:
+        logger.error(exc)
+    # os.remove(path)  # アップロードしたファイルを削除
       
 
 
 # ファイルアップロード
-def upload(request):
+def upload_sell(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return redirect('upload_complete')  # アップロード完了画面にリダイレクト
+            handle_uploaded_sell_file(request.FILES['file'])
+            return redirect('blog:upload_complete_sell')  # アップロード完了画面にリダイレクト
     else:
         form = UploadFileForm()
-    return render(request, 'blog/upload.html', {'form': form})
+    return render(request, 'upload_sell.html', {'form': form})
+
+def upload_member(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_member_file(request.FILES['file'])
+            return redirect('blog:upload_complete_member')  # アップロード完了画面にリダイレクト
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload_member.html', {'form': form})
 
 # ファイルアップロード完了
-def upload_complete(request):
-    return render(request, 'blog/upload_complete.html')
+def upload_complete_sell(request):
+    return render(request, 'upload_complete_sell.html')
+def upload_complete_member(request):
+    return render(request, 'upload_complete_member.html')
