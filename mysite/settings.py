@@ -127,6 +127,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< HEAD
 LOGIN_URL = 'accounts/login'
+=======
+LOGIN_URL = '/accounts/login' 
+>>>>>>> fdafc94a16cc9e04dda42b55643fc6295e2033c9
 LOGIN_REDIRECT_URL = '/upload_sell'
-LOGOUT_REDIRECT_URL='accounts/login'
+LOGOUT_REDIRECT_URL='/accounts/login'
