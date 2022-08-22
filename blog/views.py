@@ -37,7 +37,7 @@ def handle_uploaded_member_file(f):
         addCsv.insert_member_csv_data(path)  # csvデータをDBに登録する
     except Exception as exc:
         logger.error(exc)
-    # os.remove(path)  # アップロードしたファイルを削除
+    os.remove(path)  # アップロードしたファイルを削除
       
 
 
