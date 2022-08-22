@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <div class="login-logo">
+      <b>PDFtoExcel</b>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg"><b>ログオン画面</b></p>
+
+      <form action="" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group has-feedback">
+            {{ field }}
+          </div>
+        {% endfor %}
+        <div class="row">
+
+          {% for error in form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              <p>{{ error }}</p>
+            </div>
+          {% endfor %}
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">ログオン</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+  <!-- /.login-box -->
+</body>
+</html>
+
