@@ -127,11 +127,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-<<<<<<< Updated upstream
-# LOGIN_URL = 'accounts/login'
-# LOGIN_REDIRECT_URL = '/upload_sell'
-# LOGOUT_REDIRECT_URL='accounts/login'
-=======
-MEDIA_URL = '/media/'
-MEDIA_ROOT = Path(BASE_DIR / 'media')
->>>>>>> Stashed changes
+LOGIN_URL = 'accounts/login'
+LOGIN_REDIRECT_URL = '/upload_sell'
+LOGOUT_REDIRECT_URL='accounts/login'
