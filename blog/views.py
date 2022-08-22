@@ -43,6 +43,8 @@ def handle_uploaded_member_file(f):
 
 # ファイルアップロード
 def upload_sell(request):
+    if request.user.is_superuser:
+      return redirect('blog:upload_member')
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -53,6 +55,8 @@ def upload_sell(request):
     return render(request, 'upload_sell.html', {'form': form})
 
 def upload_member(request):
+    if not request.user.is_superuser:
+      return redirect('blog:upload_sell')
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():

@@ -6,17 +6,51 @@
     </head>
     <body>
       <!-- upload.html -->
-     
-      {% block content %}
-      <h1>売上データアップロード</h1>
-      <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form }}
-          <div class="form-group">
-              <button type="submit">アップロード</button>
-          </div>
-      </form>
-      {% endblock %}
+     <!--========== ここから以下を追加 =========== -->
+        {% if user.is_authenticated and not user.is_superuser  %}
+        <!--========== ここまでを追加 =============== -->
+        
+        <li>
+            
+            <!--========== ここから以下を修正 =============== -->
+            <a class="nav-link">ユーザ名：{{ user.get_username }}</a>
+            <!--========== ここまでを修正 =============== -->
+        
+        </li>     
+        <li>
+            <a class="nav-link" href="{% url 'accounts:logout' %}">
+                <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
+        </li>
+        
+        <!--========== ここから以下を追加 =========== -->
+        <!--========== ここまでを追加 =============== -->
+        {% block content %}
+        <h1>売上データアップロード</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit">アップロード</button>
+            </div>
+        </form>
+        {% endblock %}
+        
+        
+        {% else %}
+        <li>
+            
+            <!--========== ここから以下を修正 =============== -->
+            <a class="nav-link">ユーザ名：{{ user.get_username }}</a>
+            <!--========== ここまでを修正 =============== -->
+        
+        </li>     
+        <li>
+            <a class="nav-link" href="{% url 'accounts:logout' %}">
+                <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
+        </li>
+        <h1>あなたは管理アカウントです</h1>
+        <a href="{% url 'blog:upload_member' %}"><button>会員マスタアップロードページへ</button></a>
+        {% endif %}
 
     </body>
 </html>
