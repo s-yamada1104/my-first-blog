@@ -5,15 +5,15 @@ import logging
 import csv
 from datetime import datetime as dt
 from collections import defaultdict
-from .models import Sell
+from .models import Sell,Member
 logger = logging.getLogger('development')
 
 # DBへの追加用SQL
-sell_sql_insert = ("insert into blog_sell (store_id, payment_id, payment_method, offering_method, time, product_id, product_name, price, tax, price_including_tax, member_id_id) "
+sell_sql_insert = ("insert into data_sell (store_id, payment_id, payment_method, offering_method, time, product_id, product_name, price, tax, price_including_tax, member_id) "
               "select * from (select %s as store_id, %s as payment_id, %s as payment_method, %s as offering_method, %s as time, %s as product_id, %s as product_name, %s as price, %s as tax, %s as price_including_tax,"
-              "%s as member_id_id) as tmp")
+              "%s as member_id) as tmp")
               # "where not exists (select * from blog_sell where payment_id = %s and product_id = %s)")
-member_sql_insert = ("insert into blog_member (member_id, name, email, points) "
+member_sql_insert = ("insert into data_member (member_id, name, email, points) "
               "select * from (select %s as member_id, %s as name, %s as email, %s as points) as tmp")
               # "where not exists (select * from blog_sell where payment_id = %s and product_id = %s)")
 
@@ -43,7 +43,13 @@ def regist_sell_data(cursor, file_path):
                 print(add_data)
                 cursor.execute(sell_sql_insert,add_data)
             logger.info("=== > End DB登録 ==")
-
+            # x = Sell.objects.extra(
+            #   tables=['blog_member'],
+            #   where=['blog_sell.member_id=blog_member.member_id']
+            # ).extra(select={'points': "blog_member.points"}).order_by("points")
+            # for record in x:
+            #   print(record.member_id+":"+str(record.points))
+            
 
 # csvファイルのデータをDBに追加する。
 def insert_sell_csv_data(file_path):
@@ -75,7 +81,12 @@ def regist_member_data(cursor, file_path):
                 add_data = []
                 add_data.extend(row)  # csvから読み取った情報
                 logger.debug('add_data = ' + str(add_data))
-                if Sell.objects.filter(payment_id = add_data[0]):
+                if Member.objects.filter(member_id = add_data[0]):
+                  mem = Member.objects.get(member_id = add_data[0])
+                  mem.name = add_data[1]
+                  mem.email = add_data[2]
+                  mem.points = add_data[3]
+                  mem.save()
                   continue
                 print(add_data)
                 cursor.execute(member_sql_insert,add_data)
